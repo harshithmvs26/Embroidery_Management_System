@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Attendance - Garments Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/owner/dashboard">Garments Management</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/owner/dashboard">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/owner/employees">Employees</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/owner/employees/<%= employee.id %>/attendance">Attendance</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/owner/leaves">Leave Requests</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Attendance Records for <%= employee.name %></h2>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Check In</th>
+                                        <th>Check Out</th>
+                                        <th>Status</th>
+                                        <th>Hours Worked</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if (attendance.length > 0) { %>
+                                        <% attendance.forEach(record => { %>
+                                            <tr>
+                                                <td><%= new Date(record.date).toLocaleDateString() %></td>
+                                                <td><%= record.check_in ? new Date(record.check_in).toLocaleTimeString() : '-' %></td>
+                                                <td><%= record.check_out ? new Date(record.check_out).toLocaleTimeString() : '-' %></td>
+                                                <td>
+                                                    <span class="badge <%= record.status === 'present' ? 'bg-success' : 'bg-danger' %>">
+                                                        <%= record.status %>
+                                                    </span>
+                                                </td>
+                                                <td><%= record.hours_worked || '-' %></td>
+                                            </tr>
+                                        <% }); %>
+                                    <% } else { %>
+                                        <tr>
+                                            <td colspan="5" class="text-center">No attendance records found</td>
+                                        </tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 
